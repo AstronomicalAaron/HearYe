@@ -20,7 +20,8 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Register');
+        // Changed this so we can render the registration form on the main page
+        return Inertia::render('Welcome');
     }
 
     /**
