@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         )->create([
             'name' => 'Aaron Barczewski',
             'password' => 'password',
-            'email' => 'testemail@gmail.com',
+            'email' => 'testmail@gmail.com',
         ]);
     }
 }

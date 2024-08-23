@@ -13,7 +13,8 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
-        'announcements' => Announcement::with('user:id,name')->latest()->paginate(5)
+        // get all announcements, join on user to get the user/author name of announcement, limit by 4 and add pagination data
+        'announcements' => Announcement::with('user:id,name')->latest()->paginate(4)
     ]);
 });
 

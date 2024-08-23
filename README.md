@@ -42,20 +42,18 @@ Then you'll need to run the migrations with Artisan (this will also add in the s
 ```
 After then, you should be able to log in with these credentials:
 ```
-email: testemail@gmail.com
+email: testmail@gmail.com
 password: password
 ```
 
 If you run into any permission errors here, in the `.env` changing `DB_USERNAME` to `root` should fix it.
 
-Then you should be able to navigate to `http://localhost/` and see the application
-
-You shouldn't have to build the FE components, but just in case you're running into a blank screen you can:
+To build the FE components run either:
 1) Build the assets
 ```shell
  ./vendor/bin/sail npm run build
 ```
-2) ...or as a last resort, bring up Vite
+2) ...or bring up Vite
 ```shell
  ./vendor/bin/sail npm run dev
 ```
