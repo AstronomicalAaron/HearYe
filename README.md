@@ -22,7 +22,7 @@ An announcements board made with Laravel and Vue.js
 
 ---
 
-## Setup and Build
+## Setup and Run Local Environment
 
 I used Sail/Docker containers, so Docker will need to be installed.
 
@@ -36,10 +36,16 @@ Bring up the containers in the background using Sail (be sure to be in the proje
 ./vendor/bin/sail up -d
 ```
 
-Then you'll need to run the migrations with Artisan:
+Then you'll need to run the migrations with Artisan (this will also add in the seed data from the factories) (there's probably no need to use fresh I just have it here as a reference as I'm testing):
 ```shell
-./vendor/bin/sail artisan migrate
+./vendor/bin/sail php artisan migrate:fresh --seed
 ```
+After then, you should be able to log in with these credentials:
+```
+email: testemail@gmail.com
+password: password
+```
+
 If you run into any permission errors here, in the `.env` changing `DB_USERNAME` to `root` should fix it.
 
 Then you should be able to navigate to `http://localhost/` and see the application
