@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Announcement;
 use Illuminate\Foundation\Application;
@@ -16,7 +17,7 @@ Route::get('/', function () {
         // get all announcements, join on user to get the user/author name of announcement, limit by 4 and add pagination data
         'announcements' => Announcement::with('user:id,name')->latest()->paginate(4)
     ]);
-});
+})->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -26,9 +27,9 @@ Route::middleware('auth')->group(function () {
 
 // Allows users (or an admin user) to create and manage their announcements
 Route::middleware('auth')->group(function () {
-    Route::post('/announcement', [Announcement::class, 'create'])->name('profile.create');
-    Route::patch('/announcement', [Announcement::class, 'update'])->name('profile.update');
-    Route::delete('/announcement', [Announcement::class, 'destroy'])->name('profile.destroy');
+    Route::post('/announcement', [AnnouncementController::class, 'store'])->name('announcements.store');
+    Route::patch('/announcement/{announcement}', [AnnouncementController::class, 'update'])->name('announcements.update');
+    Route::delete('/announcement/{announcement}', [AnnouncementController::class, 'destroy'])->name('announcements.destroy');
 });
 
 require __DIR__.'/auth.php';

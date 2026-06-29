@@ -24,7 +24,7 @@ const parsedBody = computed(() => marked(props.announcement.body));
             <div class="flex justify-between items-center">
                 <div>
                     <!-- The name of the author -->
-                    <span class="text-gray-800">{{ announcement.user.name }}</span>
+                    <span class="text-gray-800">{{ announcement.user.name }} {{ announcement.id }}</span>
                     <!-- The date the announcement was made -->
                     <small class="ml-2 text-sm text-gray-600">{{ new Date(announcement.created_at).toLocaleString() }}</small>
                 </div>
