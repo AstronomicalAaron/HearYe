@@ -3,30 +3,36 @@
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Announcement;
-use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-// This route is for the main SPA page
+// Public landing page. Authenticated users go straight to the announcements board.
 Route::get('/', function () {
+    if (Auth::check()) {
+        return redirect()->route('announcements.index');
+    }
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-        // get all announcements, join on user to get the user/author name of announcement, limit by 4 and add pagination data
-        'announcements' => Announcement::with('user:id,name')->latest()->paginate(4)
+        'canResetPassword' => Route::has('password.request'),
+        'status' => session('status'),
     ]);
 })->name('home');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/announcements', function () {
+        return Inertia::render('Announcements/Index', [
+            'announcements' => Announcement::with('user:id,name')->latest()->paginate(4),
+        ]);
+    })->name('announcements.index');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
-// Allows users (or an admin user) to create and manage their announcements
-Route::middleware('auth')->group(function () {
+    // Allows users (or an admin user) to create and manage their announcements.
     Route::post('/announcement', [AnnouncementController::class, 'store'])->name('announcements.store');
     Route::patch('/announcement/{announcement}', [AnnouncementController::class, 'update'])->name('announcements.update');
     Route::delete('/announcement/{announcement}', [AnnouncementController::class, 'destroy'])->name('announcements.destroy');

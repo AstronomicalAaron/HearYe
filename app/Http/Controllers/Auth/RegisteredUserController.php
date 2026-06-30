@@ -10,18 +10,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use Inertia\Inertia;
-use Inertia\Response;
 
 class RegisteredUserController extends Controller
 {
     /**
      * Display the registration view.
      */
-    public function create(): Response
+    public function create(): RedirectResponse
     {
-        // Changed this so we can render the registration form on the main page
-        return Inertia::render('Welcome');
+        return redirect()->route('home');
     }
 
     /**
@@ -47,6 +44,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('home', absolute: false));
+        return redirect(route('announcements.index', absolute: false));
     }
 }

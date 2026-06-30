@@ -7,22 +7,15 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-use Inertia\Response;
 
 class AuthenticatedSessionController extends Controller
 {
     /**
      * Display the login view.
      */
-    public function create(): Response
+    public function create(): RedirectResponse
     {
-        // Changed this so it can render the login view on the main page
-        return Inertia::render('Welcome', [
-            'canResetPassword' => Route::has('password.request'),
-            'status' => session('status'),
-        ]);
+        return redirect()->route('home');
     }
 
     /**
@@ -34,8 +27,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        // Need to change this so we're not directed to a page that doesn't exist
-        return redirect('/');
+        return redirect()->intended(route('announcements.index', absolute: false));
     }
 
     /**
